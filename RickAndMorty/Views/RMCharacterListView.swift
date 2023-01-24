@@ -8,9 +8,9 @@
 import UIKit
 
 ///view that handles showing list of characters, loader, etc
-final class CharacterListView: UIView {
+final class RMCharacterListView: UIView {
     
-    private let viewModel = CharacterListViewViewModel()
+    private let viewModel = RMCharacterListViewViewModel()
     
     private let spinner: UIActivityIndicatorView = {
         let spinner = UIActivityIndicatorView(style: .large)
@@ -27,7 +27,7 @@ final class CharacterListView: UIView {
         colleactionView.isHidden = true
         colleactionView.alpha = 0
         colleactionView.translatesAutoresizingMaskIntoConstraints = false
-        colleactionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        colleactionView.register(RMCharacterCollectionViewCell.self, forCellWithReuseIdentifier: RMCharacterCollectionViewCell.cellIdentifier)
         return colleactionView
     }()
     
