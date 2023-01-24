@@ -12,12 +12,10 @@ final class RMService {
     ///Shred singleton instance
     static let shared = RMService()
     
-    
     ///Contructor
     private init() {
         
     }
-    
     
     /// Send RM api call
     /// params:
