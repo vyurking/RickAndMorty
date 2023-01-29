@@ -10,21 +10,44 @@ import UIKit
 final class RMCharacterDetailViewViewModel {
     private let character: RMCharacter
     
-    enum SectionType: CaseIterable {
-        case photo
-        case information
-        case episodes
+    public var episodes: [String] {
+        character.episode
     }
     
-    public let sections = SectionType.allCases
+    enum SectionType {
+        case photo(viewModel: RMCharacterPhotoCollectionViewCellViewModel)
+        case information(viewModel: [RMCharacterInformationCollectionViewCellViewModel])
+        case episodes(viewModel: [RMCharacterEpisodeCollectionViewCellViewModel])
+    }
+    
+    public var sections: [SectionType] = []
     
     //MARK: - Init
     
     init(chatacter: RMCharacter) {
         self.character = chatacter
+        setUpSections()
     }
     
-    public var requestUrl: URL? {
+    private func setUpSections() {
+        sections = [
+            .photo(viewModel: .init(imageUrl: URL(string: character.image))),
+            .information(viewModel: [
+                .init(value: character.status.text, type: .status),
+                .init(value: character.gender.rawValue, type: .gender),
+                .init(value: character.species, type: .species),
+                .init(value: character.origin.name, type: .origin),
+                .init(value: character.location.name, type: .location),
+                .init(value: "\(character.episode.count)", type: .episodeCount),
+            ]),
+            .episodes(viewModel: character.episode.compactMap ({
+                    return RMCharacterEpisodeCollectionViewCellViewModel(episodeDataUrl: URL(string: $0))
+                })
+            )
+        ]
+    }
+    
+    private var requestUrl: URL? {
         return URL(string: character.url)
     }
     
